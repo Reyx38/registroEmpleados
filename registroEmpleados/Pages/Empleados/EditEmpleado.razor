@@ -1,0 +1,43 @@
+﻿@page "/empleados/edit/{id:int}"
+@inject registroEmpleados.Services.BD bd
+@inject NavigationManager navigation
+
+<h1>Editar empleado</h1>
+
+@*Body*@
+<div class="Contenedor-edit">
+	<div class="inputs-edit">
+		<label>Nombre</label>
+		<input type="text" @bind="empleados.nombre" />
+	</div>
+	<div class="inputs-edit">
+		<label>Trabajo</label>
+		<input type="text" @bind="empleados.trabajo" />
+	</div >
+	<div class="inputs-edit" >
+		<label>Sueldo</label>
+		<input type="number" @bind="empleados.sueldo" />
+	</div>
+
+	<button @onclick="GuardarCambios">Guardar Cambios</button>
+
+</div>
+
+@code {
+
+	registroEmpleados.Services.Empleados empleados = new registroEmpleados.Services.Empleados();
+	[Parameter]
+
+	public int id { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		empleados = await bd.ObtenerEmpleadoPorIdAsync(id);
+	}
+
+	private async Task GuardarCambios()
+	{
+		await bd.ActualizarEmpleadoAsync(empleados);
+		navigation.NavigateTo("/empleados");
+	}
+}

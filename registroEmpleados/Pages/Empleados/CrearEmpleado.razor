@@ -1,0 +1,37 @@
+﻿@page "/empleados/crear"
+@inject registroEmpleados.Services.BD bd
+@inject NavigationManager navigation
+
+
+<div class="Contenedor-crear">
+    <h1>Crear Empleado</h1>
+    <div class="input-box">
+        <input type="text" placeholder="Nombre de empleado" @bind="empleados.nombre" required>
+        <i class='bx bx-user'></i>
+    </div>
+    <div class="input-box">
+        <input type="number" placeholder="Id de empleado" @bind="empleados.id" required>
+        <i class='bx bx-barcode'></i>
+    </div>
+    <div class="input-box">
+        <input type="text" placeholder="Trabajo actual" @bind="empleados.trabajo" required>
+        <i class='bx bx-briefcase-alt'></i>
+    </div>
+    <div class="input-box">
+        <input type="number" placeholder="Salario del trabajador" @bind="empleados.sueldo" required>
+        <i class='bx bxs-dollar-circle'></i>
+    </div>
+    <div>
+        <button @onclick="CreatEmpleado">Crear Empleado</button>
+    </div>
+</div>
+
+@code {
+    registroEmpleados.Services.Empleados empleados = new registroEmpleados.Services.Empleados();
+
+    private async Task CreatEmpleado()
+    {
+        await bd.AgregarEmpleadoAsync(empleados);
+        navigation.NavigateTo("/empleados");
+    }
+}

@@ -1,0 +1,43 @@
+﻿@page "/empleados/detalles/{id:int}"
+@inject registroEmpleados.Services.BD bd
+@inject NavigationManager navigation
+
+@*Body*@
+<div class="Contenedor-detalles">
+    <div class="titulo-detalles">
+        <h1>Detalles del Empleado</h1>
+    </div>
+    <div class="label-propiedades">
+        <label>Codigo: @empleados.id</label>
+    </div>
+    <div class="label-propiedades">
+        <label>Nombre: @empleados.nombre</label>
+    </div>
+    <div class="label-propiedades">
+        <label>Empleo: @empleados.trabajo</label>
+    </div>
+    <div  class="label-propiedades">
+        <label>Salario: @empleados.sueldo</label>
+    </div>
+</div>
+
+<div class="boton-detalle">
+   <button type="button" class="btn btn-primary  bi bi-arrow-90deg-left" @onclick="Volver">Volver</button>
+</div>
+
+
+
+@code {
+	[Parameter]
+	public int id { get; set; }
+	registroEmpleados.Services.Empleados empleados = new Services.Empleados();
+
+	protected override async Task OnInitializedAsync()
+	{
+		empleados = await bd.ObtenerEmpleadoPorIdAsync(id);
+	}
+	private async Task Volver()
+	{
+		navigation.NavigateTo("/empleados");
+	}
+}

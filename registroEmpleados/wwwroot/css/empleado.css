@@ -1,0 +1,30 @@
+﻿body {
+   
+}
+
+.Contenedor-detalles {
+    position: relative;
+    text-align: center;
+    border: 2px transparent;
+    top: 30px;
+    font-size: 23px;
+}
+
+.titulo-detalles {
+    background-color: #a5c3cf;
+    text-align: center;
+    border: 2px solid rgba(255,255,255,.2);
+}
+
+    .titulo-detalles h1 {
+        position: relative;
+        top: 5px;
+    }
+
+.boton-detalle {
+    position: relative;
+    height: 50px;
+    width: 70px;
+    top: 10px;
+}
+

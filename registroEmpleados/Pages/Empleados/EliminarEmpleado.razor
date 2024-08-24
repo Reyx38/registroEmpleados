@@ -1,0 +1,52 @@
+﻿@page "/empleados/eliminar/{id:int}" 
+@inject registroEmpleados.Services.BD bd
+@inject NavigationManager navigation
+
+<h1>Eliminar Empleados</h1>
+<h2>Detalles</h2>
+
+@*Body*@
+<div class="Contenedor-eliminar ">
+	<div class="label-text">
+		<label>Codigo: @empleados.id</label>
+	</div>
+	<div class ="label-text">
+		<label>Nombre: @empleados.nombre</label>
+	</div>
+	<div class="label-text">
+		<label>Empleo: @empleados.trabajo</label>
+	</div>
+	<div class="label-text">
+		<label>Salario: @empleados.sueldo</label>
+	</div>
+	<div class="label-text">
+		<h3>¿Estás seguro de eliminar este empleado?</h3>
+	</div>
+	<div>
+		<button type="button" @onclick="Volver">Volver</button>
+	</div>
+	<div>
+		<button type="button" @onclick="eliminar">Eliminar empleado</button>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public int id { get; set; }
+	registroEmpleados.Services.Empleados empleados = new Services.Empleados();
+
+	protected override async Task OnInitializedAsync()
+	{
+		empleados = await bd.ObtenerEmpleadoPorIdAsync(id);
+	}
+	private async Task Volver()
+	{
+		navigation.NavigateTo("/empleados");
+	}
+
+	private async Task eliminar()
+	{
+		await bd.eliminar(id);
+		navigation.NavigateTo("/empleados");
+	}
+}

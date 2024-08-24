@@ -1,0 +1,80 @@
+﻿@page "/empleados"
+@inject registroEmpleados.Services.BD bd
+@inject NavigationManager navigation
+
+
+<div class="Titulo">
+	<h1>Registro de empleados</h1>
+</div>
+
+<div class="col-md-6">
+	<label class="form-label"><strong>B&uacute;squeda:</strong></label>
+	<div class="input-group">
+		<input id="valorFiltro" @bind="Codigo" class="form-control" placeholder="Buscar" />
+		<button @onclick="Buscar" class="btn btn-success bi bi-search" type="button">Buscar</button>
+	</div>
+</div>
+
+<div class="text-left">
+	<br />
+	<a href="/empleados/crear" class="btn btn-success bi bi-person-fill-add"> Crear</a>
+</div>
+
+@*Body*@
+<div class="card-body">
+	<table class="table table-light">
+		<thead class="table table-striped text-center table-bordered mt-3 ">
+			<tr>
+				<th>Codigo</th>
+		        <th>Nombre</th>
+		        <th>Empleo</th>
+		        <th>Sueldo</th>
+		        <th>Detalles</th>
+		        <th>modificar</th>
+		        <th>Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var empleado in list)
+			{
+				<tr>
+					<td class="text-center">@empleado.id</td>
+			        <td class="text-center">@empleado.nombre</td>
+			        <td class="text-center">@empleado.trabajo</td>
+			        <td class="text-center">@empleado.sueldo</td>
+					<td class="text-center">
+						<a href="/empleados/detalles/@empleado.id" class="btn btn-info text-white bx bxs-show"></a>
+					</td>
+					<td class="text-center">
+						<a href="/empleados/edit/@empleado.id" class="btn btn-secondary text-white bx bxs-brightness"></a>
+					</td>
+					<td class="text-center">
+						<a href="/empleados/eliminar/@empleado.id" class="btn btn-danger bx bxs-trash-alt"></a>
+					</td>
+				</tr>
+			}
+	   </tbody>
+    </table>
+</div>
+
+
+@code {
+	public LinkedList<registroEmpleados.Services.Empleados> list = new LinkedList<registroEmpleados.Services.Empleados>();
+	public int Codigo { get; set; } = 0;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var empleadosDesdeBD = await bd.ObtenerEmpleadosAsync();
+
+		foreach (var empleado in empleadosDesdeBD)
+		{
+			list.AddLast(empleado);
+		}
+	}
+
+	private async Task Buscar()
+	{
+		navigation.NavigateTo($"/empleados/detalles/{Codigo}");
+	}
+
+}
